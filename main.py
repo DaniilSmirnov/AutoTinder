@@ -86,8 +86,8 @@ class LovinaTests(unittest.TestCase):
         assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль вам не понравился, просто смахните влево", "Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
-        assert self.driver.find_element_by_xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout[2]/android.widget.TextView[1]").text == "Суперлайк доступен!", "Неверный текст заголовка в туториале"
-        assert self.driver.find_element_by_xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout[2]/android.widget.TextView[2]").text == "Ставьте Суперлайк, когда вам кто-то очень понравился: станете первым в списке и он получит уведомление","Неверный текст туториала"
+        sleep(1)
+        self.driver.save_screenshot("SuperLikeTutorial.png")
         self.driver.find_element_by_id(self.btnGotIt).click()
 
     def ProfileEdit(self):
