@@ -57,21 +57,28 @@ class LovinaTests(unittest.TestCase):
         #self.driver.reset()
         self.driver.quit()
 
-    def test_01_loginbyVK(self):
+    def loginbyVK(self):
 
         self.driver.find_element_by_id(self.VkLogin).click()
         self.driver.implicitly_wait(400)
         self.driver.find_element_by_id(self.allowbtn).click()
         self.driver.find_element_by_id(self.permission_allow_button).click()
 
-        self.driver.find_element_by_id(self.rvCards)
+        sleep(1)
+        assert str(self.driver.current_activity) == ".ui.actvity.main.MainActivity", "Неверная активность"
 
-    def loginbyPhone(self):
+    def test_01_loginbyPhone(self):
         self.driver.find_element_by_id(self.LoginPhone).click()
         self.driver.find_element_by_id(self.permission_allow_button).click()
         self.driver.find_element_by_id(self.etPhoneNumber).send_keys("9270143434")
         self.driver.find_element_by_xpath(self.NextButton).click()
-        self.driver.find_element_by_id(self.etSmsCode).send_keys("0000")
+        sleep(10)
+        self.driver.find_element_by_id(self.etSmsCode).send_keys(input())
+        self.driver.find_element_by_xpath(self.NextButton).click()
+        self.driver.find_element_by_id(self.permission_allow_button).click()
+        sleep(1)
+
+        assert str(self.driver.current_activity) == ".ui.actvity.main.MainActivity", "Неверная активность"
 
     def test_02_tutorials(self):
 
