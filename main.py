@@ -43,20 +43,20 @@ class LovinaTests(unittest.TestCase):
         #desired_caps['app'] = 'C:\\Users\\littl\\PycharmProjects\\LovinaCheck\\lovina.apk'
         desired_caps['appPackage'] = 'com.lovina.android'
         desired_caps['appActivity'] = '.ui.activity.main.MainActivity'
-        desired_caps['appWaitActivity'] = '.ui.activity.login.LoginActivity'
+        #desired_caps['appWaitActivity'] = '.ui.activity.login.LoginActivity'
         desired_caps['unicodeKeyboard'] = 'true'
         desired_caps['noReset'] = 'true'
         #desired_caps['fullReset'] = 'true'
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
+
     def tearDown(self):
         # end the session
         #self.driver.reset()
         self.driver.quit()
 
-
-    def test_loginbyVK(self):
+    def test_01_loginbyVK(self):
 
         self.driver.find_element_by_id(self.VkLogin).click()
         self.driver.implicitly_wait(400)
@@ -72,18 +72,23 @@ class LovinaTests(unittest.TestCase):
         self.driver.find_element_by_xpath(self.NextButton).click()
         self.driver.find_element_by_id(self.etSmsCode).send_keys("0000")
 
-    def test_Tutorials(self):
-        self.driver.swipe(0, 0, 300, 0)
+    def test_02_tutorials(self):
+
+        self.driver.swipe(0, 0, 800, 0)
+        self.driver.implicitly_wait(240)
+        self.driver.save_screenshot("Liked tutorial.png")
+        assert self.driver.find_element_by_id(self.tvTitle).text == "Нравится", "Неверный текст заголовка в туториале"
+        assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль понравился, смахните вправо и ждите взаимный лайк", "Неверный текст туториала"
+        self.driver.find_element_by_id(self.btnGotIt).click()
+
+        self.driver.swipe(800, 0, 0, 0)
+        self.driver.implicitly_wait(240)
         self.driver.save_screenshot("Not liked tutorial.png")
         assert self.driver.find_element_by_id(self.tvTitle).text == "Не нравится", "Неверный текст заголовка в туториале"
         assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль вам не понравился, просто смахните влево", "Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
-        self.driver.swipe(300, 0, 0, 0)
-        self.driver.save_screenshot("Liked tutorial.png")
-        assert self.driver.find_element_by_id(self.tvTitle).text == "Нравится", "Неверный текст заголовка в туториале"
-        assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль вам понравился, смахните вправо и ждите взаимный лайк", "Неверный текст туториала"self.driver.find_element_by_id(self.btnGotIt).click()
-
+        self.driver.implicitly_wait(240)
         self.driver.save_screenshot("SuperLike.png")
         assert self.driver.find_element_by_id(self.tvTitle).text == "Суперлайк доступен!", "Неверный текст заголовка в туториале"
         assert self.driver.find_element_by_id(self.tvMessage).text == "Ставьте Суперлайк, когда вам кто-то очень понравился: станете первым в списке и он получит уведомление","Неверный текст туториала"
