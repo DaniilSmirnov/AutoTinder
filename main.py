@@ -3,7 +3,7 @@ import unittest
 from appium import webdriver
 
 
-class SimpleAndroidTests(unittest.TestCase):
+class LovinaTests(unittest.TestCase):
 
     VkLogin = "com.lovina.android:id/btnVkLogin"
     LoginPhone = "com.lovina.android:id/btnLoginPhone"
@@ -40,19 +40,21 @@ class SimpleAndroidTests(unittest.TestCase):
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['deviceName'] = 'CB512DPQK5'
-        desired_caps['app'] = 'C:\\Users\\littl\\PycharmProjects\\LovinaCheck\\lovina.apk'
-        #desired_caps['appPackage'] = 'com.lovina.android'
-        #desired_caps['appActivity'] = '.ui.activity.main.MainActivity'
+        #desired_caps['app'] = 'C:\\Users\\littl\\PycharmProjects\\LovinaCheck\\lovina.apk'
+        desired_caps['appPackage'] = 'com.lovina.android'
+        desired_caps['appActivity'] = '.ui.activity.main.MainActivity'
         desired_caps['appWaitActivity'] = '.ui.activity.login.LoginActivity'
         desired_caps['unicodeKeyboard'] = 'true'
-        #desired_caps['noReset'] = 'true'
-        desired_caps['fullReset'] = 'true'
+        desired_caps['noReset'] = 'true'
+        #desired_caps['fullReset'] = 'true'
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
     def tearDown(self):
         # end the session
+        #self.driver.reset()
         self.driver.quit()
+
 
     def test_loginbyVK(self):
 
@@ -71,29 +73,20 @@ class SimpleAndroidTests(unittest.TestCase):
         self.driver.find_element_by_id(self.etSmsCode).send_keys("0000")
 
     def test_Tutorials(self):
-        #TODO: Возможно потребуется убрать скобки в ассертах, нужно выяснять на практике
         self.driver.swipe(0, 0, 300, 0)
         self.driver.save_screenshot("Not liked tutorial.png")
-        assert (self.driver.find_element_by_id(self.tvTitle).text
-                == "Не нравится", "Неверный текст заголовка в туториале")
-        assert (self.driver.find_element_by_id(self.tvMessage).text
-                == "Если профиль вам не понравился, просто смахните влево", "Неверный текст туториала")
+        assert self.driver.find_element_by_id(self.tvTitle).text == "Не нравится", "Неверный текст заголовка в туториале"
+        assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль вам не понравился, просто смахните влево", "Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
         self.driver.swipe(300, 0, 0, 0)
         self.driver.save_screenshot("Liked tutorial.png")
-        assert (self.driver.find_element_by_id(self.tvTitle).text
-                == "Нравится", "Неверный текст заголовка в туториале")
-        assert (self.driver.find_element_by_id(self.tvMessage).text
-                == "Если профиль вам понравился, смахните вправо и ждите взаимный лайк", "Неверный текст туториала")
-        self.driver.find_element_by_id(self.btnGotIt).click()
+        assert self.driver.find_element_by_id(self.tvTitle).text == "Нравится", "Неверный текст заголовка в туториале"
+        assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль вам понравился, смахните вправо и ждите взаимный лайк", "Неверный текст туториала"self.driver.find_element_by_id(self.btnGotIt).click()
 
         self.driver.save_screenshot("SuperLike.png")
-        assert (self.driver.find_element_by_id(self.tvTitle).text
-                == "Суперлайк доступен!", "Неверный текст заголовка в туториале")
-        assert (self.driver.find_element_by_id(self.tvMessage).text
-                == "Ставьте Суперлайк, когда вам кто-то очень понравился: станете первым в списке и он получит уведомление",
-                "Неверный текст туториала")
+        assert self.driver.find_element_by_id(self.tvTitle).text == "Суперлайк доступен!", "Неверный текст заголовка в туториале"
+        assert self.driver.find_element_by_id(self.tvMessage).text == "Ставьте Суперлайк, когда вам кто-то очень понравился: станете первым в списке и он получит уведомление","Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
     def ProfileEdit(self):
@@ -101,5 +94,5 @@ class SimpleAndroidTests(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(SimpleAndroidTests)
+    suite = unittest.TestLoader().loadTestsFromTestCase(LovinaTests)
     unittest.TextTestRunner(verbosity=2).run(suite)
