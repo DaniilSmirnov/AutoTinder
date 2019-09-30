@@ -1,6 +1,7 @@
 import unittest
-
+from time import sleep
 from appium import webdriver
+from appium.webdriver.common.touch_action import TouchAction
 
 
 class LovinaTests(unittest.TestCase):
@@ -74,24 +75,19 @@ class LovinaTests(unittest.TestCase):
 
     def test_02_tutorials(self):
 
-        self.driver.swipe(0, 0, 800, 0)
-        self.driver.implicitly_wait(240)
-        self.driver.save_screenshot("Liked tutorial.png")
+        self.driver.swipe(0, 0, 800, 0, 500)
         assert self.driver.find_element_by_id(self.tvTitle).text == "Нравится", "Неверный текст заголовка в туториале"
         assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль понравился, смахните вправо и ждите взаимный лайк", "Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
-        self.driver.swipe(800, 0, 0, 0)
-        self.driver.implicitly_wait(240)
-        self.driver.save_screenshot("Not liked tutorial.png")
+        sleep(1)
+        self.driver.swipe(800, 0, 0, 0, 500)
         assert self.driver.find_element_by_id(self.tvTitle).text == "Не нравится", "Неверный текст заголовка в туториале"
         assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль вам не понравился, просто смахните влево", "Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
-        self.driver.implicitly_wait(240)
-        self.driver.save_screenshot("SuperLike.png")
-        assert self.driver.find_element_by_id(self.tvTitle).text == "Суперлайк доступен!", "Неверный текст заголовка в туториале"
-        assert self.driver.find_element_by_id(self.tvMessage).text == "Ставьте Суперлайк, когда вам кто-то очень понравился: станете первым в списке и он получит уведомление","Неверный текст туториала"
+        assert self.driver.find_element_by_xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout[2]/android.widget.TextView[1]").text == "Суперлайк доступен!", "Неверный текст заголовка в туториале"
+        assert self.driver.find_element_by_xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout[2]/android.widget.TextView[2]").text == "Ставьте Суперлайк, когда вам кто-то очень понравился: станете первым в списке и он получит уведомление","Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
     def ProfileEdit(self):
