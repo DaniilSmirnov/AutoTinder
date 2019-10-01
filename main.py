@@ -5,24 +5,33 @@ from appium.webdriver.common.touch_action import TouchAction
 
 
 class LovinaTests(unittest.TestCase):
-
     VkLogin = "com.lovina.android:id/btnVkLogin"
     LoginPhone = "com.lovina.android:id/btnLoginPhone"
     allowbtn = "allow_btn"
     permission_allow_button = "com.android.packageinstaller:id/permission_allow_button"
     etPhoneNumber = "com.lovina.android:id/etPhoneNumber"
-    NextButton = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.Button[2]"
+    NextButton = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout" \
+                 "/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget" \
+                 ".FrameLayout[2]/android.widget.Button[2] "
     etSmsCode = "com.lovina.android:id/etSmsCode"
     rvCards = "com.lovina.android:id/rvCards"
     btnCardSuperLike = "com.lovina.android:id/btnCardSuperLike"
 
-    #Tabbar
-    Profile_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.ImageView[1]"
-    Cards_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.ImageView[2]"
-    Video_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.ImageView[3]"
-    Messages_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.ImageView[4]"
+    # Tabbar
+    Profile_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout" \
+                  "/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget" \
+                  ".LinearLayout/android.widget.ImageView[1] "
+    Cards_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android" \
+                ".widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout" \
+                "/android.widget.ImageView[2] "
+    Video_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android" \
+                ".widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout" \
+                "/android.widget.ImageView[3] "
+    Messages_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout" \
+                   "/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget" \
+                   ".LinearLayout/android.widget.ImageView[4] "
 
-    #Cards
+    # Cards
     tvTitle = "com.lovina.android:id/tvTitle"
     tvMessage = "com.lovina.android:id/tvMessage"
     btnGotIt = "com.lovina.android:id/btnGotIt"
@@ -30,8 +39,7 @@ class LovinaTests(unittest.TestCase):
     btnUserActionLike = "com.lovina.android:id/btnUserActionLike"
     btnUserActionDisLike = "com.lovina.android:id/btnUserActionDisLike"
 
-
-    #Profile
+    # Profile
     btnEditProfile = "com.lovina.android:id/btnEditProfile"
     btnSettings = "com.lovina.android:id/btnSettings"
     idAvatar = "com.lovina.android:id/ivAvatar"
@@ -50,24 +58,22 @@ class LovinaTests(unittest.TestCase):
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['deviceName'] = 'CB512DPQK5'
-        #desired_caps['app'] = 'C:\\Users\\littl\\PycharmProjects\\LovinaCheck\\lovina.apk'
+        # desired_caps['app'] = 'C:\\Users\\littl\\PycharmProjects\\LovinaCheck\\lovina.apk'
         desired_caps['appPackage'] = 'com.lovina.android'
         desired_caps['appActivity'] = '.ui.activity.main.MainActivity'
-        #desired_caps['appWaitActivity'] = '.ui.activity.login.LoginActivity'
+        # desired_caps['appWaitActivity'] = '.ui.activity.login.LoginActivity'
         desired_caps['unicodeKeyboard'] = 'true'
         desired_caps['noReset'] = 'true'
-        #desired_caps['fullReset'] = 'true'
+        # desired_caps['fullReset'] = 'true'
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
-
     def tearDown(self):
         # end the session
-        #self.driver.reset()
+        self.driver.reset()
         self.driver.quit()
 
     def loginbyVK(self):
-
         self.driver.find_element_by_id(self.VkLogin).click()
         self.driver.implicitly_wait(400)
         self.driver.find_element_by_id(self.allowbtn).click()
@@ -77,7 +83,6 @@ class LovinaTests(unittest.TestCase):
         assert self.driver.current_activity == ".ui.activity.main.MainActivity", "Неверная активность"
 
     def test_01_loginbyPhone(self):
-
         self.driver.find_element_by_id(self.LoginPhone).click()
         self.driver.find_element_by_id(self.permission_allow_button).click()
         self.driver.find_element_by_id(self.etPhoneNumber).send_keys("9270143434")
@@ -90,16 +95,17 @@ class LovinaTests(unittest.TestCase):
         assert str(self.driver.current_activity) == ".ui.activity.main.MainActivity", "Неверная активность"
 
     def test_02_tutorials(self):
-
         self.driver.swipe(0, 0, 800, 0, 500)
         assert self.driver.find_element_by_id(self.tvTitle).text == "Нравится", "Неверный текст заголовка в туториале"
-        assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль понравился, смахните вправо и ждите взаимный лайк", "Неверный текст туториала"
+        assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль понравился, смахните вправо и ждите взаимный лайк","Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
         sleep(1)
         self.driver.swipe(800, 0, 0, 0, 500)
-        assert self.driver.find_element_by_id(self.tvTitle).text == "Не нравится", "Неверный текст заголовка в туториале"
-        assert self.driver.find_element_by_id(self.tvMessage).text == "Если профиль вам не понравился, просто смахните влево", "Неверный текст туториала"
+        assert self.driver.find_element_by_id(
+            self.tvTitle).text == "Не нравится", "Неверный текст заголовка в туториале"
+        assert self.driver.find_element_by_id(
+            self.tvMessage).text == "Если профиль вам не понравился, просто смахните влево", "Неверный текст туториала"
         self.driver.find_element_by_id(self.btnGotIt).click()
 
         sleep(1)
@@ -128,7 +134,7 @@ class LovinaTests(unittest.TestCase):
         element = self.driver.find_elements_by_id("com.lovina.android:id/text1")
         element[1].click()
 
-        sleep(30) #Выбираем фотки за 30 секунд
+        sleep(30)  # Выбираем фотки за 30 секунд
 
         self.driver.save_screenshot("Crop.png")
         self.driver.find_element_by_id("com.lovina.android:id/menu_crop")
@@ -137,11 +143,13 @@ class LovinaTests(unittest.TestCase):
         self.driver.find_element_by_id(self.etAboutMe).click()
         self.driver.find_element_by_id(self.etAboutMe).clear()
 
-        assert self.driver.find_element_by_id(self.tvAboutMeCounter) == 0, "Счетчик символов поля 'О себе' работает некорректно"
+        assert self.driver.find_element_by_id(
+            self.tvAboutMeCounter) == 0, "Счетчик символов поля 'О себе' работает некорректно"
 
         self.driver.find_element_by_id(self.etAboutMe).send_keys("About")
 
-        assert self.driver.find_element_by_id(self.tvAboutMeCounter) == 5, "Счетчик символов поля 'О себе' работает некорректно"
+        assert self.driver.find_element_by_id(
+            self.tvAboutMeCounter) == 5, "Счетчик символов поля 'О себе' работает некорректно"
 
         self.driver.find_element_by_id(self.ivToolbarRightIcon).click()
 
@@ -160,12 +168,9 @@ class LovinaTests(unittest.TestCase):
         self.driver.find_element_by_accessibility_id("OK")
         self.driver.find_element_by_id(self.ivToolbarLeftIcon).click()
 
-
     def ProfileView(self):
         self.driver.find_element_by_xpath(self.Profile_tab).click()
         self.driver.find_element_by_id(self.idAvatar).click()
-
-
 
 
 if __name__ == '__main__':
