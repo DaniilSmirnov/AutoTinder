@@ -34,8 +34,13 @@ class LovinaTests(unittest.TestCase):
     btnBoost = "com.lovina.android:id/btnBoost"
     btnCoins = "com.lovina.android:id/btnCoins"
 
+    btnRemove = "com.lovina.android:id/btnRemove"
     tvAboutMeCounter = "com.lovina.android:id/tvAboutMeCounter"
     etAboutMe = "com.lovina.android:id/etAboutMe"
+    ivToolbarRightIcon = "com.lovina.android:id/ivToolbarRightIcon"
+
+    btnContinue = "com.lovina.android:id/btnContinue"
+    ivToolbarLeftIcon = "com.lovina.android:id/ivToolbarLeftIcon"
 
     def setUp(self):
         desired_caps = {}
@@ -65,9 +70,10 @@ class LovinaTests(unittest.TestCase):
         self.driver.find_element_by_id(self.permission_allow_button).click()
 
         sleep(1)
-        assert str(self.driver.current_activity) == ".ui.actvity.main.MainActivity", "Неверная активность"
+        assert self.driver.current_activity == ".ui.activity.main.MainActivity", "Неверная активность"
 
     def test_01_loginbyPhone(self):
+
         self.driver.find_element_by_id(self.LoginPhone).click()
         self.driver.find_element_by_id(self.permission_allow_button).click()
         self.driver.find_element_by_id(self.etPhoneNumber).send_keys("9270143434")
@@ -97,8 +103,59 @@ class LovinaTests(unittest.TestCase):
         self.driver.save_screenshot("SuperLikeTutorial.png")
         self.driver.find_element_by_id(self.btnGotIt).click()
 
-    def ProfileEdit(self):
-        pass
+    def profile_edit(self):
+        self.driver.find_element_by_xpath(self.Profile_tab).click()
+        self.driver.find_element_by_id(self.btnEditProfile).click()
+
+        elements = self.driver.find_elements_by_id(self.btnRemove)
+        elements[0].click()
+
+        elements[1].click()
+
+        self.driver.find_elements_by_id(self.permission_allow_button)
+        self.driver.find_elements_by_id(self.permission_allow_button)
+
+        element = self.driver.find_elements_by_id("com.lovina.android:id/text1")
+        element[1].click()
+
+        sleep(30) #Выбираем фотки за 30 секунд
+
+        self.driver.save_screenshot("Crop.png")
+        self.driver.find_element_by_id("com.lovina.android:id/menu_crop")
+        self.driver.save_screenshot("New photo.png")
+
+        self.driver.find_element_by_id(self.etAboutMe).click()
+        self.driver.find_element_by_id(self.etAboutMe).clear()
+
+        assert self.driver.find_element_by_id(self.tvAboutMeCounter) == 0, "Счетчик символов поля 'О себе' работает некорректно"
+
+        self.driver.find_element_by_id(self.etAboutMe).send_keys("About")
+
+        assert self.driver.find_element_by_id(self.tvAboutMeCounter) == 5, "Счетчик символов поля 'О себе' работает некорректно"
+
+        self.driver.find_element_by_id(self.ivToolbarRightIcon).click()
+
+    def buy(self):
+        self.driver.find_element_by_xpath(self.Profile_tab).click()
+
+        self.driver.find_element_by_id(self.btnCoins).click()
+        self.driver.save_screenshot("Coins.png")
+        self.driver.find_element_by_id(self.btnContinue).click()
+        self.driver.find_element_by_accessibility_id("OK")
+        self.driver.find_element_by_id(self.ivToolbarLeftIcon).click()
+
+        self.driver.find_element_by_id(self.btnBoost).click()
+        self.driver.save_screenshot("Boost.png")
+        self.driver.find_element_by_id(self.btnContinue).click()
+        self.driver.find_element_by_accessibility_id("OK")
+        self.driver.find_element_by_id(self.ivToolbarLeftIcon).click()
+
+
+    def ProfileView(self):
+        self.driver.find_element_by_xpath(self.Profile_tab).click()
+        self.driver.find_element_by_id(self.idAvatar).click()
+
+
 
 
 if __name__ == '__main__':
