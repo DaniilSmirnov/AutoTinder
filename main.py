@@ -22,10 +22,14 @@ class LovinaTests(unittest.TestCase):
     Video_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.ImageView[3]"
     Messages_tab = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.LinearLayout/android.widget.ImageView[4]"
 
-    #Tutorial
+    #Cards
     tvTitle = "com.lovina.android:id/tvTitle"
     tvMessage = "com.lovina.android:id/tvMessage"
     btnGotIt = "com.lovina.android:id/btnGotIt"
+    btnUserActionSuperLike = "com.lovina.android:id/btnUserActionSuperLike"
+    btnUserActionLike = "com.lovina.android:id/btnUserActionLike"
+    btnUserActionDisLike = "com.lovina.android:id/btnUserActionDisLike"
+
 
     #Profile
     btnEditProfile = "com.lovina.android:id/btnEditProfile"
@@ -83,8 +87,7 @@ class LovinaTests(unittest.TestCase):
         self.driver.find_element_by_xpath(self.NextButton).click()
         self.driver.find_element_by_id(self.permission_allow_button).click()
         sleep(1)
-
-        assert str(self.driver.current_activity) == ".ui.actvity.main.MainActivity", "Неверная активность"
+        assert str(self.driver.current_activity) == ".ui.activity.main.MainActivity", "Неверная активность"
 
     def test_02_tutorials(self):
 
@@ -102,6 +105,13 @@ class LovinaTests(unittest.TestCase):
         sleep(1)
         self.driver.save_screenshot("SuperLikeTutorial.png")
         self.driver.find_element_by_id(self.btnGotIt).click()
+        sleep(1)
+
+        while self.driver.find_elements_by_id(self.btnUserActionSuperLike) == 0:
+            self.driver.swipe(500, 200, 500, 400)
+            sleep(1)
+
+        self.driver.save_screenshot("card.png")
 
     def profile_edit(self):
         self.driver.find_element_by_xpath(self.Profile_tab).click()
